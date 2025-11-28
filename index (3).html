@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الذكاء الاصطناعي القانوني</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F4F8 0%, #F5E6D3 100%);
+            color: #2C3E50;
+            line-height: 1.6;
+        }
+
+        /* الشريط العلوي */
+        .navbar {
+            background: linear-gradient(135deg, #2E5C8A 0%, #1a3a52 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+        }
+
+        .navbar-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #D4AF37;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #D4AF37;
+            color: #D4AF37;
+        }
+
+        .nav-btn.active {
+            background: #D4AF37;
+            color: #2E5C8A;
+        }
+
+        .admin-btn {
+            font-size: 1.2rem;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* الصفحة الرئيسية */
+        .home-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-header h1 {
+            font-size: 2.5rem;
+            color: #2E5C8A;
+            margin-bottom: 1rem;
+        }
+
+        .home-header p {
+            font-size: 1.1rem;
+            color: #7F8C8D;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-right: 4px solid #D4AF37;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #2E5C8A;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #7F8C8D;
+            line-height: 1.8;
+        }
+
+        /* الذكاء الاصطناعي */
+        .ai-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .ai-header h2 {
+            color: #2E5C8A;
+            font-size: 1.8rem;
+        }
+
+        .law-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            background: #F8FAFB;
+            border: 2px solid #E0E6ED;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #4A90E2;
+            color: white;
+            border-color: #4A90E2;
+        }
+
+        .chat-box {
+            background: #F8FAFB;
+            border: 2px solid #E0E6ED;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: white;
+            border-right: 3px solid #4A90E2;
+        }
+
+        .message.ai {
+            border-right-color: #D4AF37;
+            background: #F0F8FF;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #E0E6ED;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .input-group button {
+            padding: 0.75rem 1.5rem;
+            background: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .input-group button:hover {
+            background: #2E5C8A;
+        }
+
+        /* المكتبة */
+        .library-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .library-section h2 {
+            color: #2E5C8A;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .upload-form {
+            background: #F8FAFB;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 2px dashed #4A90E2;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #E0E6ED;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4A90E2 0%, #2E5C8A 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #F8FAFB 0%, #E8F4F8 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #E0E6ED;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.2);
+            border-color: #4A90E2;
+        }
+
+        .book-card h3 {
+            color: #2E5C8A;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-card p {
+            color: #7F8C8D;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .book-actions a,
+        .book-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn {
+            background: #27AE60;
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #229954;
+        }
+
+        .delete-btn {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #C0392B;
+        }
+
+        /* المنتدى */
+        .forum-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .forum-section h2 {
+            color: #2E5C8A;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .discussion-card {
+            background: linear-gradient(135deg, #F8FAFB 0%, #E8F4F8 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-right: 4px solid #4A90E2;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .discussion-card:hover {
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+        }
+
+        .discussion-card h3 {
+            color: #2E5C8A;
+            margin-bottom: 0.5rem;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #7F8C8D;
+            margin-bottom: 1rem;
+        }
+
+        /* الدردشة */
+        .chat-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-section h2 {
+            color: #2E5C8A;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        /* الأخبار */
+        .news-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-section h2 {
+            color: #2E5C8A;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .news-item {
+            background: linear-gradient(135deg, #F8FAFB 0%, #E8F4F8 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-right: 4px solid #D4AF37;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+        }
+
+        .news-item h3 {
+            color: #2E5C8A;
+            margin-bottom: 0.5rem;
+        }
+
+        /* المحامين */
+        .lawyers-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .lawyers-section h2 {
+            color: #2E5C8A;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .lawyers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .lawyer-card {
+            background: linear-gradient(135deg, #F8FAFB 0%, #E8F4F8 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #E0E6ED;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .lawyer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(74, 144, 226, 0.2);
+            border-color: #4A90E2;
+        }
+
+        .lawyer-avatar {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: #D4AF37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .lawyer-card h3 {
+            color: #2E5C8A;
+            margin-bottom: 0.5rem;
+        }
+
+        .lawyer-card p {
+            color: #7F8C8D;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* لوحة التحكم */
+        .admin-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .password-input {
+            margin-bottom: 1rem;
+        }
+
+        .admin-locked {
+            text-align: center;
+            padding: 3rem;
+            color: #7F8C8D;
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.unlocked {
+            display: block;
+        }
+
+        /* الاستجابة */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .home-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lawyers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الشريط العلوي -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo-section">
+                <img src="/1000056061.jpg" alt="الشعار" class="navbar-logo">
+                <span class="app-title">منصة الذكاء الاصطناعي القانوني</span>
+            </div>
+
+            <ul class="nav-menu">
+                <li><button class="nav-btn active" onclick="showPage('home')">الرئيسية</button></li>
+                <li><button class="nav-btn" onclick="showPage('ai')">الذكاء الاصطناعي</button></li>
+                <li><button class="nav-btn" onclick="showPage('library')">المكتبة</button></li>
+                <li><button class="nav-btn" onclick="showPage('forum')">المنتدى</button></li>
+                <li><button class="nav-btn" onclick="showPage('chat')">الدردشة</button></li>
+                <li><button class="nav-btn" onclick="showPage('news')">الأخبار</button></li>
+                <li><button class="nav-btn" onclick="showPage('lawyers')">المحامين</button></li>
+                <li><button class="nav-btn admin-btn" onclick="showPage('admin')">⚙️</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <!-- الصفحة الرئيسية -->
+        <div id="home" class="page active">
+            <div class="home-header">
+                <h1>🏛️ منصة الذكاء الاصطناعي القانوني</h1>
+                <p>منصة متكاملة لخدمات قانونية ذكية وحديثة</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🤖 ذكاء اصطناعي قانوني</h3>
+                    <p>استشارات قانونية ذكية متخصصة في القانون العراقي والدولي</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📚 مكتبة إلكترونية</h3>
+                    <p>مجموعة شاملة من الكتب والملازم القانونية</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💬 منتدى قانوني</h3>
+                    <p>نقاشات وحوارات قانونية مع متخصصين</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💭 دردشة عالمية</h3>
+                    <p>تواصل فوري مع المستخدمين حول العالم</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📰 أخبار قانونية</h3>
+                    <p>آخر التطورات والأخبار القانونية</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👨‍⚖️ دليل محامين</h3>
+                    <p>قائمة شاملة بالمحامين والمتخصصين</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الذكاء الاصطناعي -->
+        <div id="ai" class="page">
+            <div class="ai-section">
+                <div class="ai-header">
+                    <h2>🤖 مساعد قانوني ذكي</h2>
+                    <div class="law-toggle">
+                        <button class="toggle-btn active" onclick="setLawType('iraqi')">القانون العراقي</button>
+                        <button class="toggle-btn" onclick="setLawType('international')">القانون الدولي</button>
+                    </div>
+                </div>
+
+                <div class="chat-box">
+                    <div class="messages" id="aiMessages">
+                        <div class="message ai">
+                            <strong>المساعد القانوني:</strong> مرحباً! أنا هنا لمساعدتك في الأسئلة القانونية. اسأل عن أي موضوع قانوني وسأجيبك بشرح مفصل.
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="aiInput" placeholder="اسأل سؤالك القانوني..." onkeypress="if(event.key==='Enter') askAI()">
+                        <button onclick="askAI()">إرسال</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- المكتبة -->
+        <div id="library" class="page">
+            <div class="library-section">
+                <h2>📚 المكتبة الإلكترونية</h2>
+
+                <div class="upload-form">
+                    <h3 style="margin-bottom: 1rem; color: #2E5C8A;">رفع كتاب جديد</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>عنوان الكتاب:</label>
+                            <input type="text" id="bookTitle" placeholder="أدخل عنوان الكتاب">
+                        </div>
+                        <div class="form-group">
+                            <label>المؤلف:</label>
+                            <input type="text" id="bookAuthor" placeholder="أدخل اسم المؤلف">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف:</label>
+                        <textarea id="bookDescription" placeholder="أدخل وصفاً قصيراً" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>التصنيف:</label>
+                            <select id="bookCategory">
+                                <option>قانون مدني</option>
+                                <option>قانون جنائي</option>
+                                <option>قانون إداري</option>
+                                <option>قانون عمل</option>
+                                <option>قانون دولي</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ملف PDF:</label>
+                            <input type="file" id="bookFile" accept=".pdf">
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="addBook()">رفع الكتاب</button>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: #2E5C8A;">الكتب المتاحة</h3>
+                <div class="books-grid" id="booksGrid">
+                    <div class="book-card">
+                        <h3>📖 لا توجد كتب حالياً</h3>
+                        <p>ابدأ برفع الكتب والملازم القانونية</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- المنتدى -->
+        <div id="forum" class="page">
+            <div class="forum-section">
+                <h2>💬 المنتدى القانوني</h2>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #2E5C8A;">نقاش جديد</h3>
+                    <div class="form-group">
+                        <input type="text" id="discussionTitle" placeholder="عنوان النقاش">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="discussionContent" placeholder="محتوى النقاش" rows="4"></textarea>
+                    </div>
+                    <button class="submit-btn" onclick="addDiscussion()">إنشاء نقاش</button>
+                </div>
+
+                <div id="discussionsContainer">
+                    <div class="discussion-card">
+                        <h3>لا توجد نقاشات حالياً</h3>
+                        <p>كن أول من ينشئ نقاشاً قانونياً</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الدردشة -->
+        <div id="chat" class="page">
+            <div class="chat-section">
+                <h2>💭 الدردشة العالمية</h2>
+                <p style="margin-bottom: 1rem; color: #7F8C8D;">لا تحتاج إلى تسجيل دخول - فقط أدخل اسمك</p>
+
+                <div class="chat-box">
+                    <div class="messages" id="chatMessages">
+                        <div class="message ai">
+                            <strong>النظام:</strong> مرحباً بك في الدردشة العالمية!
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="userName" placeholder="أدخل اسمك" style="flex: 0.3;">
+                        <input type="text" id="chatInput" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter') sendChat()">
+                        <button onclick="sendChat()">إرسال</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الأخبار -->
+        <div id="news" class="page">
+            <div class="news-section">
+                <h2>📰 الأخبار والتحديثات</h2>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #2E5C8A;">إضافة خبر جديد</h3>
+                    <div class="form-group">
+                        <input type="text" id="newsTitle" placeholder="عنوان الخبر">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="newsContent" placeholder="محتوى الخبر" rows="4"></textarea>
+                    </div>
+                    <button class="submit-btn" onclick="addNews()">إضافة الخبر</button>
+                </div>
+
+                <div id="newsContainer">
+                    <div class="news-item">
+                        <h3>لا توجد أخبار حالياً</h3>
+                        <p>سيتم عرض الأخبار القانونية هنا</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- المحامين -->
+        <div id="lawyers" class="page">
+            <div class="lawyers-section">
+                <h2>👨‍⚖️ دليل المحامين</h2>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #2E5C8A;">إضافة محام</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="lawyerName" placeholder="اسم المحامي">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="lawyerEmail" placeholder="البريد الإلكتروني">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="tel" id="lawyerPhone" placeholder="رقم الهاتف">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="lawyerSpecialty" placeholder="التخصص">
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="addLawyer()">إضافة المحامي</button>
+                </div>
+
+                <div class="lawyers-grid" id="lawyersGrid">
+                    <div class="lawyer-card">
+                        <div class="lawyer-avatar">👨‍⚖️</div>
+                        <h3>لا توجد محامين حالياً</h3>
+                        <p>سيتم عرض قائمة المحامين هنا</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- لوحة التحكم -->
+        <div id="admin" class="page">
+            <div class="admin-section">
+                <h2>⚙️ لوحة التحكم</h2>
+
+                <div class="admin-locked" id="adminLocked">
+                    <h3 style="margin-bottom: 1rem;">🔒 لوحة التحكم محمية</h3>
+                    <div class="password-input">
+                        <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور" onkeypress="if(event.key==='Enter') unlockAdmin()">
+                        <button class="submit-btn" onclick="unlockAdmin()" style="margin-top: 1rem;">فتح</button>
+                    </div>
+                </div>
+
+                <div class="admin-content" id="adminContent">
+                    <h3 style="margin-bottom: 1rem; color: #2E5C8A;">إدارة المحتوى</h3>
+                    <p style="margin-bottom: 1rem; color: #7F8C8D;">يمكنك من هنا إدارة جميع محتويات الموقع</p>
+
+                    <div style="background: #F8FAFB; padding: 1.5rem; border-radius: 12px;">
+                        <h4 style="margin-bottom: 1rem;">الإحصائيات:</h4>
+                        <ul style="list-style: none; color: #2C3E50;">
+                            <li>📚 عدد الكتب: <span id="booksCount">0</span></li>
+                            <li>💬 عدد النقاشات: <span id="discussionsCount">0</span></li>
+                            <li>📰 عدد الأخبار: <span id="newsCount">0</span></li>
+                            <li>👨‍⚖️ عدد المحامين: <span id="lawyersCount">0</span></li>
+                        </ul>
+                    </div>
+
+                    <button class="submit-btn" onclick="clearAllData()" style="margin-top: 1rem; background: #E74C3C;">حذف جميع البيانات</button>
+                    <button class="submit-btn" onclick="logoutAdmin()" style="margin-top: 1rem;">تسجيل الخروج</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // البيانات
+        let data = {
+            books: [],
+            discussions: [],
+            news: [],
+            lawyers: [],
+            chatMessages: [],
+            aiMessages: [],
+            currentLawType: 'iraqi'
+        };
+
+        // تحميل البيانات من localStorage
+        function loadData() {
+            const saved = localStorage.getItem('legalAIData');
+            if (saved) {
+                data = JSON.parse(saved);
+            }
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            localStorage.setItem('legalAIData', JSON.stringify(data));
+        }
+
+        // عرض الصفحة
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageName).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // تحديث الإحصائيات عند فتح لوحة التحكم
+            if (pageName === 'admin') {
+                updateStats();
+            }
+        }
+
+        // تعيين نوع القانون
+        function setLawType(type) {
+            data.currentLawType = type;
+            document.querySelectorAll('.law-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // إضافة كتاب
+        function addBook() {
+            const title = document.getElementById('bookTitle').value;
+            const author = document.getElementById('bookAuthor').value;
+            const description = document.getElementById('bookDescription').value;
+            const category = document.getElementById('bookCategory').value;
+            const file = document.getElementById('bookFile').files[0];
+
+            if (!title || !author || !file) {
+                alert('الرجاء ملء جميع الحقول واختيار ملف');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                data.books.push({
+                    id: Date.now(),
+                    title,
+                    author,
+                    description,
+                    category,
+                    fileData: e.target.result,
+                    fileName: file.name,
+                    uploadedAt: new Date().toLocaleDateString('ar-IQ')
+                });
+
+                saveData();
+                displayBooks();
+                document.getElementById('bookTitle').value = '';
+                document.getElementById('bookAuthor').value = '';
+                document.getElementById('bookDescription').value = '';
+                document.getElementById('bookFile').value = '';
+                alert('تم رفع الكتاب بنجاح!');
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // عرض الكتب
+        function displayBooks() {
+            const grid = document.getElementById('booksGrid');
+            if (data.books.length === 0) {
+                grid.innerHTML = '<div class="book-card"><h3>📖 لا توجد كتب حالياً</h3><p>ابدأ برفع الكتب والملازم القانونية</p></div>';
+                return;
+            }
+
+            grid.innerHTML = data.books.map(book => `
+                <div class="book-card">
+                    <h3>${book.title}</h3>
+                    <p><strong>المؤلف:</strong> ${book.author}</p>
+                    <p>${book.description}</p>
+                    <p style="font-size: 0.8rem; color: #95A5A6;">${book.uploadedAt}</p>
+                    <div class="book-actions">
+                        <button class="download-btn" onclick="downloadBook(${book.id})">📥 تحميل</button>
+                        <button class="delete-btn" onclick="deleteBook(${book.id})">🗑️ حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // تحميل الكتاب
+        function downloadBook(id) {
+            const book = data.books.find(b => b.id === id);
+            if (book) {
+                const blob = new Blob([book.fileData], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = book.fileName;
+                a.click();
+            }
+        }
+
+        // حذف الكتاب
+        function deleteBook(id) {
+            if (confirm('هل تريد حذف هذا الكتاب؟')) {
+                data.books = data.books.filter(b => b.id !== id);
+                saveData();
+                displayBooks();
+            }
+        }
+
+        // إضافة نقاش
+        function addDiscussion() {
+            const title = document.getElementById('discussionTitle').value;
+            const content = document.getElementById('discussionContent').value;
+
+            if (!title || !content) {
+                alert('الرجاء ملء جميع الحقول');
+                return;
+            }
+
+            data.discussions.push({
+                id: Date.now(),
+                title,
+                content,
+                createdAt: new Date().toLocaleDateString('ar-IQ'),
+                replies: []
+            });
+
+            saveData();
+            displayDiscussions();
+            document.getElementById('discussionTitle').value = '';
+            document.getElementById('discussionContent').value = '';
+            alert('تم إنشاء النقاش بنجاح!');
+        }
+
+        // عرض النقاشات
+        function displayDiscussions() {
+            const container = document.getElementById('discussionsContainer');
+            if (data.discussions.length === 0) {
+                container.innerHTML = '<div class="discussion-card"><h3>لا توجد نقاشات حالياً</h3><p>كن أول من ينشئ نقاشاً قانونياً</p></div>';
+                return;
+            }
+
+            container.innerHTML = data.discussions.map(d => `
+                <div class="discussion-card">
+                    <h3>${d.title}</h3>
+                    <div class="discussion-meta">
+                        <span>📅 ${d.createdAt}</span>
+                        <span>💬 ${d.replies.length} ردود</span>
+                        <button class="delete-btn" onclick="deleteDiscussion(${d.id})" style="margin-left: auto; padding: 0.25rem 0.75rem;">حذف</button>
+                    </div>
+                    <p>${d.content}</p>
+                </div>
+            `).join('');
+        }
+
+        // حذف النقاش
+        function deleteDiscussion(id) {
+            if (confirm('هل تريد حذف هذا النقاش؟')) {
+                data.discussions = data.discussions.filter(d => d.id !== id);
+                saveData();
+                displayDiscussions();
+            }
+        }
+
+        // إرسال رسالة في الدردشة
+        function sendChat() {
+            const userName = document.getElementById('userName').value || 'مستخدم';
+            const message = document.getElementById('chatInput').value;
+
+            if (!message) return;
+
+            data.chatMessages.push({
+                user: userName,
+                message,
+                time: new Date().toLocaleTimeString('ar-IQ')
+            });
+
+            saveData();
+            displayChatMessages();
+            document.getElementById('chatInput').value = '';
+        }
+
+        // عرض رسائل الدردشة
+        function displayChatMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = data.chatMessages.map(m => `
+                <div class="message">
+                    <strong>${m.user}:</strong> ${m.message}
+                    <div style="font-size: 0.8rem; color: #95A5A6; margin-top: 0.25rem;">${m.time}</div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // سؤال الذكاء الاصطناعي
+        function askAI() {
+            const question = document.getElementById('aiInput').value;
+            if (!question) return;
+
+            data.aiMessages.push({
+                role: 'user',
+                content: question
+            });
+
+            // محاكاة الرد
+            const answers = {
+                iraqi: {
+                    'عقد': 'العقد في القانون العراقي هو اتفاق بين طرفين أو أكثر على إنشاء التزام أو نقله أو إنهاؤه. يجب أن يتوفر في العقد: الإيجاب والقبول، والمحل، والسبب، والأهلية.',
+                    'وصية': 'الوصية في القانون العراقي هي تصرف قانوني يقوم به الشخص بإرادته المنفردة لينفذ بعد وفاته. يجب أن تكون الوصية كتابية وموثقة.',
+                    'ميراث': 'الميراث في القانون العراقي ينقسم إلى عدة أنواع: الميراث بالفرض والميراث بالتعصيب. يتم توزيع التركة حسب أحكام الشريعة الإسلامية.',
+                    'default': 'هذا موضوع قانوني مهم. في القانون العراقي، يتم التعامل معه وفقاً لأحكام القانون المدني والقوانين الخاصة ذات الصلة.'
+                },
+                international: {
+                    'عقد': 'العقد الدولي هو اتفاق بين أطراف من دول مختلفة. يخضع للقانون الدولي الخاص والاتفاقيات الدولية مثل اتفاقية الأمم المتحدة بشأن العقود الدولية للبيع.',
+                    'معاهدة': 'المعاهدة الدولية هي اتفاق بين دولتين أو أكثر ملزم قانوناً. تخضع لقانون المعاهدات الدولية وتسجل لدى الأمم المتحدة.',
+                    'حقوق الإنسان': 'حقوق الإنسان محمية بموجب الإعلان العالمي لحقوق الإنسان والعهود الدولية. تشمل الحقوق المدنية والسياسية والاقتصادية والاجتماعية والثقافية.',
+                    'default': 'هذا موضوع قانوني دولي مهم. يتم التعامل معه وفقاً للقانون الدولي والاتفاقيات الدولية ذات الصلة.'
+                }
+            };
+
+            const lawType = data.currentLawType;
+            const answerMap = answers[lawType];
+            let answer = answerMap['default'];
+
+            for (const key in answerMap) {
+                if (question.includes(key)) {
+                    answer = answerMap[key];
+                    break;
+                }
+            }
+
+            data.aiMessages.push({
+                role: 'assistant',
+                content: answer
+            });
+
+            saveData();
+            displayAIMessages();
+            document.getElementById('aiInput').value = '';
+        }
+
+        // عرض رسائل الذكاء الاصطناعي
+        function displayAIMessages() {
+            const container = document.getElementById('aiMessages');
+            container.innerHTML = data.aiMessages.map(m => `
+                <div class="message ${m.role === 'assistant' ? 'ai' : ''}">
+                    <strong>${m.role === 'assistant' ? 'المساعد القانوني' : 'أنت'}:</strong> ${m.content}
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // إضافة خبر
+        function addNews() {
+            const title = document.getElementById('newsTitle').value;
+            const content = document.getElementById('newsContent').value;
+
+            if (!title || !content) {
+                alert('الرجاء ملء جميع الحقول');
+                return;
+            }
+
+            data.news.push({
+                id: Date.now(),
+                title,
+                content,
+                createdAt: new Date().toLocaleDateString('ar-IQ')
+            });
+
+            saveData();
+            displayNews();
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsContent').value = '';
+            alert('تم إضافة الخبر بنجاح!');
+        }
+
+        // عرض الأخبار
+        function displayNews() {
+            const container = document.getElementById('newsContainer');
+            if (data.news.length === 0) {
+                container.innerHTML = '<div class="news-item"><h3>لا توجد أخبار حالياً</h3><p>سيتم عرض الأخبار القانونية هنا</p></div>';
+                return;
+            }
+
+            container.innerHTML = data.news.map(n => `
+                <div class="news-item">
+                    <h3>${n.title}</h3>
+                    <p style="font-size: 0.85rem; color: #95A5A6; margin-bottom: 0.5rem;">📅 ${n.createdAt}</p>
+                    <p>${n.content}</p>
+                    <button class="delete-btn" onclick="deleteNews(${n.id})" style="margin-top: 1rem;">حذف</button>
+                </div>
+            `).join('');
+        }
+
+        // حذف الخبر
+        function deleteNews(id) {
+            if (confirm('هل تريد حذف هذا الخبر؟')) {
+                data.news = data.news.filter(n => n.id !== id);
+                saveData();
+                displayNews();
+            }
+        }
+
+        // إضافة محام
+        function addLawyer() {
+            const name = document.getElementById('lawyerName').value;
+            const email = document.getElementById('lawyerEmail').value;
+            const phone = document.getElementById('lawyerPhone').value;
+            const specialty = document.getElementById('lawyerSpecialty').value;
+
+            if (!name || !email || !phone || !specialty) {
+                alert('الرجاء ملء جميع الحقول');
+                return;
+            }
+
+            data.lawyers.push({
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                specialty
+            });
+
+            saveData();
+            displayLawyers();
+            document.getElementById('lawyerName').value = '';
+            document.getElementById('lawyerEmail').value = '';
+            document.getElementById('lawyerPhone').value = '';
+            document.getElementById('lawyerSpecialty').value = '';
+            alert('تم إضافة المحامي بنجاح!');
+        }
+
+        // عرض المحامين
+        function displayLawyers() {
+            const grid = document.getElementById('lawyersGrid');
+            if (data.lawyers.length === 0) {
+                grid.innerHTML = '<div class="lawyer-card"><div class="lawyer-avatar">👨‍⚖️</div><h3>لا توجد محامين حالياً</h3><p>سيتم عرض قائمة المحامين هنا</p></div>';
+                return;
+            }
+
+            grid.innerHTML = data.lawyers.map(l => `
+                <div class="lawyer-card">
+                    <div class="lawyer-avatar">👨‍⚖️</div>
+                    <h3>${l.name}</h3>
+                    <p><strong>التخصص:</strong> ${l.specialty}</p>
+                    <p style="font-size: 0.9rem;">📧 ${l.email}</p>
+                    <p style="font-size: 0.9rem;">📱 ${l.phone}</p>
+                    <button class="delete-btn" onclick="deleteLawyer(${l.id})" style="margin-top: 1rem; width: 100%;">حذف</button>
+                </div>
+            `).join('');
+        }
+
+        // حذف المحامي
+        function deleteLawyer(id) {
+            if (confirm('هل تريد حذف هذا المحامي؟')) {
+                data.lawyers = data.lawyers.filter(l => l.id !== id);
+                saveData();
+                displayLawyers();
+            }
+        }
+
+        // فتح لوحة التحكم
+        function unlockAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'pode2006') {
+                document.getElementById('adminLocked').style.display = 'none';
+                document.getElementById('adminContent').classList.add('unlocked');
+                updateStats();
+            } else {
+                alert('كلمة المرور غير صحيحة');
+            }
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            document.getElementById('booksCount').textContent = data.books.length;
+            document.getElementById('discussionsCount').textContent = data.discussions.length;
+            document.getElementById('newsCount').textContent = data.news.length;
+            document.getElementById('lawyersCount').textContent = data.lawyers.length;
+        }
+
+        // حذف جميع البيانات
+        function clearAllData() {
+            if (confirm('هل تريد حذف جميع البيانات؟ هذا الإجراء لا يمكن التراجع عنه!')) {
+                data = {
+                    books: [],
+                    discussions: [],
+                    news: [],
+                    lawyers: [],
+                    chatMessages: [],
+                    aiMessages: [],
+                    currentLawType: 'iraqi'
+                };
+                saveData();
+                alert('تم حذف جميع البيانات');
+                location.reload();
+            }
+        }
+
+        // تسجيل الخروج من لوحة التحكم
+        function logoutAdmin() {
+            document.getElementById('adminLocked').style.display = 'block';
+            document.getElementById('adminContent').classList.remove('unlocked');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // التهيئة
+        window.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            displayBooks();
+            displayDiscussions();
+            displayNews();
+            displayLawyers();
+            displayChatMessages();
+            displayAIMessages();
+        });
+    </script>
+</body>
+</html>
